@@ -2,6 +2,9 @@
   const opening = document.getElementById('opening');
   const openButton = document.getElementById('openSurprise');
   const replayButton = document.getElementById('replayButton');
+  const birthdaySong = document.getElementById('birthdaySong');
+  const musicToggle = document.getElementById('musicToggle');
+  const musicToggleLabel = document.getElementById('musicToggleLabel');
   const teaseButton = document.getElementById('teaseButton');
   const teaseReveal = document.getElementById('teaseReveal');
   const toast = document.getElementById('toast');
@@ -16,7 +19,23 @@
     }, 260);
   }
 
+  function updateMusicButton() {
+    const playing = !birthdaySong.paused && !birthdaySong.ended;
+    musicToggle.setAttribute('aria-pressed', String(playing));
+    musicToggle.setAttribute('aria-label', playing ? 'Pause our song' : 'Play our song');
+    musicToggleLabel.textContent = playing ? 'PAUSE SONG' : 'PLAY OUR SONG';
+  }
+
+  function startSong() {
+    musicToggle.hidden = false;
+    birthdaySong.play().then(updateMusicButton).catch(updateMusicButton);
+  }
+
   function replay() {
+    birthdaySong.pause();
+    birthdaySong.currentTime = 0;
+    musicToggle.hidden = true;
+    updateMusicButton();
     window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     opening.removeAttribute('aria-hidden');
     opening.classList.remove('is-closing');
@@ -24,7 +43,22 @@
     openButton.focus({ preventScroll: true });
   }
 
-  openButton.addEventListener('click', enterSite);
+  openButton.addEventListener('click', () => {
+    enterSite();
+    startSong();
+  });
+  musicToggle.addEventListener('click', () => {
+    if (birthdaySong.paused || birthdaySong.ended) {
+      if (birthdaySong.ended) birthdaySong.currentTime = 0;
+      birthdaySong.play().then(updateMusicButton).catch(updateMusicButton);
+    } else {
+      birthdaySong.pause();
+      updateMusicButton();
+    }
+  });
+  birthdaySong.addEventListener('play', updateMusicButton);
+  birthdaySong.addEventListener('pause', updateMusicButton);
+  birthdaySong.addEventListener('ended', updateMusicButton);
   replayButton.addEventListener('click', replay);
 
   teaseButton.addEventListener('click', () => {

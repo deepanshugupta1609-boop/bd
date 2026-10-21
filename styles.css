@@ -230,6 +230,11 @@ em { color: var(--rose); font-weight: inherit; }
 .site-footer { display: flex; justify-content: space-between; gap: 16px; padding: 16px clamp(18px, 5vw, 72px); color: #9f8389; background: #fffaf4; font-size: 7px; }
 .toast { position: fixed; z-index: 200; bottom: 22px; left: 50%; transform: translate(-50%, 20px); padding: 11px 15px; background: var(--wine); color: white; font-size: 11px; opacity: 0; pointer-events: none; transition: .25s ease; box-shadow: 0 8px 25px #0002; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
+.music-toggle { position: fixed; z-index: 30; right: 20px; bottom: 20px; display: inline-flex; align-items: center; gap: 9px; min-height: 43px; padding: 0 16px; border: 1px solid rgba(93,23,43,.2); border-radius: 999px; background: rgba(255,250,244,.94); color: var(--wine); box-shadow: 0 6px 24px rgba(50,20,29,.15); backdrop-filter: blur(10px); font: 650 9px/1 var(--sans); letter-spacing: .12em; cursor: pointer; }
+.music-toggle[hidden] { display: none; }
+.music-toggle-icon { font-size: 17px; line-height: 1; }
+.music-toggle:hover { background: #fff; transform: translateY(-1px); }
+@media (max-width: 640px) { .music-toggle { right: 12px; bottom: 12px; } }
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 @keyframes float-in { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
